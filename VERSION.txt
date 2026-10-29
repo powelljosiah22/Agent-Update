@@ -1,0 +1,1 @@
+v1.1.0 (2026-10-28) — Live Test Update: 3.8KB Inline Search Slicing, BM25 Stemming, RECITATION OCR Fallback, and State-Preserving Git Updater

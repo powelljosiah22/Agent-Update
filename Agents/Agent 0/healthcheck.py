@@ -62,6 +62,9 @@ def parse_env(env_file: Path) -> dict:
 def main():
     print("=" * 72)
     print("🩺 CALLIE MULTI-AGENT INFRASTRUCTURE HEALTHCHECK")
+    version_file = AGENT0_DIR / "VERSION.txt"
+    if version_file.exists():
+        print(f"📌 Installed Release: {version_file.read_text(encoding='utf-8').strip()}")
     print("=" * 72)
 
     # 1. Global Rules & Skills

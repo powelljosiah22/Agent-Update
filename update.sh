@@ -21,6 +21,9 @@ BACKUP_DIR="$AGENTS_DIR/.backups/backup_$TIMESTAMP"
 
 echo "========================================================================"
 echo "🔄 Updating Callie's Multi-Agent Infrastructure (State-Preserving Mode)"
+if [[ -f "$SCRIPT_DIR/VERSION.txt" ]]; then
+  echo "📌 Release: $(cat "$SCRIPT_DIR/VERSION.txt")"
+fi
 echo "========================================================================"
 
 # 1. If this directory is a Git repository, pull the latest changes first
@@ -104,6 +107,9 @@ for f in "requirements.txt" "email_mcp_server.py" "sync_env_to_mcp.py" "healthch
     cp "$SCRIPT_DIR/Agents/Agent 0/$f" "$AGENT0_DIR/$f"
   fi
 done
+if [[ -f "$SCRIPT_DIR/VERSION.txt" ]]; then
+  cp "$SCRIPT_DIR/VERSION.txt" "$AGENT0_DIR/VERSION.txt"
+fi
 cp "$SCRIPT_DIR/healthcheck.py" "$AGENT0_DIR/healthcheck.py"
 cp -R "$SCRIPT_DIR/Agents/Agent 0/context/workflows/"* "$AGENT0_DIR/context/workflows/"
 chmod +x "$AGENT0_DIR/sync_env_to_mcp.py" "$AGENT0_DIR/healthcheck.py" "$AGENT0_DIR/context/workflows/sync_canvas_calendar.sh" 2>/dev/null || true
