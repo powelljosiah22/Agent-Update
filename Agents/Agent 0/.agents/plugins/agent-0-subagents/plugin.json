@@ -1,0 +1,12 @@
+{
+  "name": "agent-0-subagents",
+  "version": "2.0.0",
+  "description": "Custom specialized subagents for Callie's Agent 0 Master Node architecture (Academic Tutor, Theology Specialist, Financial Coach, Knowledge Librarian, and Memory Manager).",
+  "agents": [
+    "agents/academic_tutor.md",
+    "agents/theology_philosophical_agent.md",
+    "agents/financial_coach.md",
+    "agents/knowledge_librarian_v2.md",
+    "agents/memory_manager.md"
+  ]
+}

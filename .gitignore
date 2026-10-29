@@ -1,0 +1,21 @@
+# Ignore OS & Python runtime artifacts
+.DS_Store
+__pycache__/
+*.py[cod]
+*.log
+.venv/
+venv/
+node_modules/
+chroma_db/
+.daemon_health.json
+.last_daily_resync
+.parse_failures.json
+
+# Strictly block real credentials and .env files (only .template files allowed)
+.env
+.env.*
+!.env.template
+credentials/*.json
+!credentials/*.json.template
+*.pem
+*.key

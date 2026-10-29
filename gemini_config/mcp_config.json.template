@@ -1,0 +1,62 @@
+{
+  "mcpServers": {
+    "obsidian-search": {
+      "command": "__HOME_DIR__/Agents/Agent 0/mcp/obsidian_search/venv/bin/python",
+      "args": [
+        "__HOME_DIR__/Agents/Agent 0/mcp/obsidian_search/server.py"
+      ],
+      "env": {
+        "GEMINI_API_KEY": "__GEMINI_API_KEY__",
+        "OBSIDIAN_VAULT_PATH": "__OBSIDIAN_VAULT_PATH__",
+        "CLASS_FOLDERS_PATH": "__CLASS_FOLDERS_PATH__"
+      }
+    },
+    "email-sender-mcp": {
+      "command": "__HOME_DIR__/Agents/Agent 0/.venv/bin/python",
+      "args": [
+        "__HOME_DIR__/Agents/Agent 0/email_mcp_server.py"
+      ]
+    },
+    "google-drive": {
+      "command": "node",
+      "args": [
+        "__HOME_DIR__/Agents/Agent 0/mcp/google_drive/mcp_drive.js"
+      ]
+    },
+    "google-workspace": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@iflow-mcp/mcp-google-workspace",
+        "--gauth-file",
+        "__HOME_DIR__/Agents/Agent 0/credentials/gauth.json",
+        "--accounts-file",
+        "__HOME_DIR__/Agents/Agent 0/credentials/accounts.json",
+        "--credentials-dir",
+        "__HOME_DIR__/Agents/Agent 0/credentials/"
+      ]
+    },
+    "yfinance": {
+      "command": "__HOME_DIR__/Agents/Agent 0/.venv/bin/python",
+      "args": [
+        "__HOME_DIR__/Agents/Agent 0/mcp/yfinance/server.py"
+      ]
+    },
+    "robinhood": {
+      "command": "__HOME_DIR__/Agents/Agent 0/.venv/bin/python",
+      "args": [
+        "__HOME_DIR__/Agents/Agent 0/mcp/robinhood/server.py"
+      ]
+    },
+    "perplexity-ask": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "server-perplexity-ask"
+      ],
+      "env": {
+        "PERPLEXITY_API_KEY": "__PERPLEXITY_API_KEY__"
+      }
+    }
+  }
+}

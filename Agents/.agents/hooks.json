@@ -1,0 +1,14 @@
+{
+  "tutor-read-tools-blocker": {
+    "PreToolUse": [
+      {
+        "matcher": "grep_search|find_by_name",
+        "hooks": [
+          {
+            "command": "__HOME_DIR__/Agents/.agents/block_tutor_read_tools.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

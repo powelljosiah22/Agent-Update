@@ -1,0 +1,36 @@
+# Environment & Secrets
+**/.env
+**/.env.*
+!**/.env.template
+*.pem
+*.key
+*.token
+**/credentials/*.json
+!**/credentials/*.template
+
+# Python Virtual Environments & Packages
+**/.venv/
+**/venv/
+**/env/
+**/ENV/
+**/node_modules/
+**/__pycache__/
+**/*.py[cod]
+*$py.class
+
+# Databases & Vector Stores
+**/chroma_db/
+**/*.sqlite3
+**/*.db
+
+# Logs & Runtime State
+**/*.log
+**/.daemon_health.json
+**/.last_daily_resync
+**/.DS_Store
+**/Thumbs.db
+
+# Archives & Temporary Artifacts
+**/*.zip
+**/*.tar.gz
+**/*.bak
