@@ -57,6 +57,12 @@
       "env": {
         "PERPLEXITY_API_KEY": "__PERPLEXITY_API_KEY__"
       }
+    },
+    "biblical-philology": {
+      "command": "__HOME_DIR__/Agents/Agent 0/mcp/obsidian_search/venv/bin/python3",
+      "args": [
+        "__HOME_DIR__/Agents/Theology Agent/philology_db/mcp_server.py"
+      ]
     }
   }
 }

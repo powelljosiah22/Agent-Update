@@ -101,6 +101,24 @@ for f in "brain_daemon.py" "pipeline_parser.py" "relink_all_notes.py" "watchdog_
   cp "$SCRIPT_DIR/Agents/Agent 0/voice_to_brain/$f" "$AGENT0_DIR/voice_to_brain/$f"
 done
 
+# Theology Agent Philological Database & Engine
+if [[ -d "$SCRIPT_DIR/Agents/Theology Agent/philology_db" ]]; then
+  mkdir -p "$AGENTS_DIR/Theology Agent/philology_db"
+  for f in "philology_engine.py" "morph_decoder.py" "mcp_server.py" "schema.sql"; do
+    if [[ -f "$SCRIPT_DIR/Agents/Theology Agent/philology_db/$f" ]]; then
+      cp "$SCRIPT_DIR/Agents/Theology Agent/philology_db/$f" "$AGENTS_DIR/Theology Agent/philology_db/$f"
+    fi
+  done
+  # Unpack biblical corpus database if not already present or if archive is newer
+  ARCHIVE="$SCRIPT_DIR/Agents/Theology Agent/philology_db/biblical_corpus.db.tar.gz"
+  TARGET_DB="$AGENTS_DIR/Theology Agent/philology_db/biblical_corpus.db"
+  if [[ -f "$ARCHIVE" ]] && [[ ! -f "$TARGET_DB" || "$ARCHIVE" -nt "$TARGET_DB" ]]; then
+    echo "📖 Unpacking Biblical Philological Database (biblical_corpus.db)..."
+    tar -xzf "$ARCHIVE" -C "$AGENTS_DIR/Theology Agent/philology_db"
+    echo "✅ Unpacked biblical_corpus.db successfully"
+  fi
+fi
+
 # Top-level Agent 0 Utilities & Workflows
 for f in "requirements.txt" "email_mcp_server.py" "sync_env_to_mcp.py" "healthcheck.py"; do
   if [[ -f "$SCRIPT_DIR/Agents/Agent 0/$f" ]]; then

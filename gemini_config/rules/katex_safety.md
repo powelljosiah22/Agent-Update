@@ -1,3 +1,8 @@
+---
+description: Mandatory KaTeX and LaTeX rendering safety protocol to permanently prevent UI parse errors across all workspaces.
+trigger: always_on
+---
+
 # KaTeX & LaTeX Rendering Safety Protocol
 
 To permanently prevent UI rendering errors (`Failed to render LaTeX: KaTeX parse error`), all agents across all workspaces MUST follow these strict formatting rules:

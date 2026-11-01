@@ -1,6 +1,6 @@
 ---
 name: update-agents
-description: Pulls the latest agent infrastructure, search daemon, parser, global rules, and shared skill updates from Josiah's upstream repository while 100% preserving all personal context, memory, learnings, and custom study workflows. Use whenever the user asks to "update my agents", "pull updates from Josiah", or "sync agent updates".
+description: Pulls the latest agent infrastructure, search daemon, parser, global rules, and shared skill updates from User's upstream repository while 100% preserving all personal context, memory, learnings, and custom study workflows. Use whenever the user asks to "update my agents", "pull updates from User", or "sync agent updates".
 ---
 
 # Update Agents Skill (`update-agents`)
