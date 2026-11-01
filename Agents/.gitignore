@@ -33,4 +33,5 @@
 # Archives & Temporary Artifacts
 **/*.zip
 **/*.tar.gz
+!**/philology_db/biblical_corpus.db.tar.gz
 **/*.bak
