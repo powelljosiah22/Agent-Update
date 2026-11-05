@@ -1,24 +1,37 @@
 # 🤖 AGENT_SETUP_WIZARD.md — Autonomous Onboarding & Zero-Terminal Setup Protocol
 
-**Target Audience:** Any Antigravity Agent running inside this repository (`Agent-Update`).
-When a user (Callie, Wyatt, Oliver, or anyone new) opens this folder in Antigravity and asks you to set up, install, or personalize their agents, follow this **Zero-Terminal Autonomous Setup Protocol**:
+**Target Audience:** Any Antigravity Agent assisting a user in setting up or managing their agent environment on macOS.
+When a user asks you to set up, clone, install, or personalize their agents, follow this **Zero-Terminal Autonomous Setup Protocol**:
 
 ---
 
 ## ⚡ 0. The One-Prompt Zero-Terminal Execution Sequence
 
-When the user pastes the **Kickoff Prompt** in chat with their details (Name, Module selection, `GEMINI_API_KEY`, Google Drive email):
+When the user pastes the **Kickoff Prompt** in chat with their details (Repository URL, Module selection, `GEMINI_API_KEY`, Google Drive email):
+
+### Step 0: Clone or Pull the Distribution Repository
+Ensure the latest code is present in `~/Agent-Update`:
+```bash
+if [ ! -d "$HOME/Agent-Update" ]; then
+  git clone https://github.com/powelljosiah22/Agent-Update.git "$HOME/Agent-Update"
+else
+  cd "$HOME/Agent-Update" && git pull
+fi
+```
 
 ### Step 1: Execute the Modular Setup Script
-Run the installer via `run_command` in the workspace directory using their requested module flag:
+Run the installer via `run_command` in `~/Agent-Update` using their requested module flag:
 ```bash
-# If they chose Theology:
+cd "$HOME/Agent-Update"
+chmod +x setup.sh update.sh
+
+# If they chose Theology & Philology:
 ./setup.sh --modules theology
 
-# If they chose Academic:
+# If they chose Academic Tutor:
 ./setup.sh --modules academic
 
-# If they chose Finance:
+# If they chose Financial Coach:
 ./setup.sh --modules finance
 
 # If they chose All Agents:
