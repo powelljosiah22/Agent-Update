@@ -1,62 +1,76 @@
-#!/usr/bin/env python3
+import re
 import os
 import smtplib
-import mimetypes
 from email.message import EmailMessage
-from typing import List, Optional
 from dotenv import load_dotenv
 from fastmcp import FastMCP
 
-# Load credentials dynamically relative to this file
+import mimetypes
+from typing import List, Optional
+
+# Load credentials from .env
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
+# Initialize the MCP Server
 mcp = FastMCP("EmailSender")
 
 @mcp.tool()
-def send_email(to_email: str, subject: str, body: str, attachments: Optional[List[str]] = None) -> str:
+def send_email(to_email: str, subject: str, body: str, attachments: Optional[List[str]] = None, html_body: Optional[str] = None) -> str:
     """
     Sends an email using the user's Gmail account via SMTP.
-
+    
     Args:
         to_email: The recipient's email address.
         subject: The subject line of the email.
-        body: The plain text body content of the email.
+        body: The plain text body content of the email (or fallback).
         attachments: Optional list of absolute file paths to attach to the email.
+        html_body: Optional rich HTML body content. If provided (or if body contains HTML tags),
+                   the email will render with rich HTML styling while preserving body as plain-text fallback.
     """
-    sender_email = os.getenv("USER_EMAIL", "").strip()
-    app_password = os.getenv("GMAIL_APP_PASSWORD", "").strip()
+    sender_email = "user@example.com"
+    app_password = os.getenv("GMAIL_APP_PASSWORD")
 
-    if not sender_email:
-        return "Error: USER_EMAIL is not configured in ~/Agents/Agent 0/.env."
     if not app_password:
-        return "Error: GMAIL_APP_PASSWORD is not configured in ~/Agents/Agent 0/.env."
+        return "Error: GMAIL_APP_PASSWORD not set in .env file."
 
     msg = EmailMessage()
-    msg.set_content(body)
     msg["Subject"] = subject
     msg["From"] = sender_email
     msg["To"] = to_email
 
+    # Determine HTML vs plain text
+    target_html = html_body
+    if not target_html and any(tag in body.lower() for tag in ["<html", "<div", "<p>", "<table", "<body"]):
+        target_html = body
+
+    if target_html:
+        # If body is identical to HTML, strip basic tags for the plain text fallback
+        plain_text = re.sub(r'<[^>]+>', '', body).strip() if body == target_html else body
+        msg.set_content(plain_text)
+        msg.add_alternative(target_html, subtype='html')
+    else:
+        msg.set_content(body)
+
     if attachments:
         for file_path in attachments:
-            expanded_path = os.path.expanduser(file_path)
-            if os.path.exists(expanded_path):
-                ctype, encoding = mimetypes.guess_type(expanded_path)
+            if os.path.exists(file_path):
+                ctype, encoding = mimetypes.guess_type(file_path)
                 if ctype is None or encoding is not None:
-                    ctype = "application/octet-stream"
-                maintype, subtype = ctype.split("/", 1)
-                with open(expanded_path, "rb") as fp:
+                    ctype = 'application/octet-stream'
+                maintype, subtype = ctype.split('/', 1)
+                with open(file_path, 'rb') as fp:
                     msg.add_attachment(
                         fp.read(),
                         maintype=maintype,
                         subtype=subtype,
-                        filename=os.path.basename(expanded_path)
+                        filename=os.path.basename(file_path)
                     )
             else:
-                return f"Error: Attachment file not found at path: {expanded_path}"
+                return f"Error: Attachment file not found at path: {file_path}"
 
     try:
+        # Connect to Gmail's SMTP server
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
             server.login(sender_email, app_password)
             server.send_message(msg)
@@ -65,4 +79,5 @@ def send_email(to_email: str, subject: str, body: str, attachments: Optional[Lis
         return f"Failed to send email: {str(e)}"
 
 if __name__ == "__main__":
+    # Start the MCP stdio server
     mcp.run()
