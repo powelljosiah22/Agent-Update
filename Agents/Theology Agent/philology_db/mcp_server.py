@@ -54,12 +54,13 @@ def handle_tools_list(req_id):
                         "properties": {
                             "mode": {
                                 "type": "string",
-                                "enum": ["interlinear", "lemma", "lxx_bridge", "custom_sql"],
-                                "description": "'interlinear' (verse/range word-by-word table), 'lemma' (concordance + morph distribution for a root_lemma/Strong's ID), 'lxx_bridge' (traces Hebrew OT <-> Greek LXX translation equivalents), or 'custom_sql' (raw read-only SELECT query).",
+                                "enum": ["interlinear", "lemma", "lxx_bridge", "custom_sql", "dispersion", "verify"],
+                                "description": "'interlinear' (verse/range word-by-word table), 'lemma' (concordance + morph distribution for a root_lemma/Strong's ID), 'lxx_bridge' (traces Hebrew OT <-> Greek LXX translation equivalents), 'custom_sql' (raw read-only SELECT query), 'dispersion' (length-normalized canonical genre spread for a comma-separated lemma cluster in lemma_id), or 'verify' (claim ledger: pass 'Ref=lemma; Ref=lemma' in sql_query).",
                             },
                             "reference": {"type": "string", "description": "For mode='interlinear': Scripture reference (e.g., 'Gen 1:1', 'Rom 3:21-25', 'Ps 23:1-3')."},
                             "lemma_id": {"type": "string", "description": "For mode='lemma' or 'lxx_bridge': root_lemma or Strong's ID (e.g., 'H2617', 'G1343', 'λόγος', 'πίστις')."},
-                            "sql_query": {"type": "string", "description": "For mode='custom_sql': Read-only SQLite SELECT query over corpus_words and lexicon_entries."},
+                            "sql_query": {"type": "string", "description": "For mode='custom_sql': read-only SELECT. For mode='verify': claims like 'Luke 12:33=G4453; 2Cor 8:13=ἰσότης'."},
+                            "claims": {"type": "string", "description": "For mode='verify': semicolon-separated claims like 'Luke 12:33=G4453; 2Cor 8:13=G2471; Eccl 5:18=H7980'."},
                             "testament": {"type": "string", "description": "Filter by testament: 'all', 'OT', 'NT', or 'LXX'. Default 'all'."},
                             "limit": {"type": "integer", "description": "Maximum concordance rows to return (default 25)."},
                         },
@@ -86,7 +87,7 @@ def handle_tools_call(req_id, params):
                 mode=args.get("mode", "interlinear"),
                 reference=args.get("reference", ""),
                 lemma_id=args.get("lemma_id", ""),
-                sql_query=args.get("sql_query", ""),
+                sql_query=args.get("claims") or args.get("sql_query") or args.get("reference", ""),
                 testament=args.get("testament", "all"),
                 limit=int(args.get("limit", 25)),
             )
