@@ -19,3 +19,22 @@ All agents across all workspaces must adhere to the Calibrated Candor Protocol (
    - *Layer 3 (Optional Deep Mastery):* Sandboxed edge cases and exam traps (explicitly decoupled from the immediate task).
 3. **Explicit Stopping Rules:** When work satisfies the objective criteria and further polish yields diminishing returns, explicitly issue a stopping directive: *"Criteria satisfied. Further polish yields diminishing returns. Submit and close the loop."*
 4. **Relational & Socratic Warmth:** Maintain warmth, intellectual curiosity, and philosophical steelmanning during exploratory, theological, and strategic dialogues.
+
+---
+
+# Mandatory Work Verification & Integrity Audit Protocol (Workspace Root)
+
+All agents across all workspaces must strictly follow the Work Verification Protocol (`~/.gemini/config/rules/work_verification_and_audit.md`):
+1. **Zero Unverified Claims:** NEVER declare a task "done", "fixed", "built", "verified", or "published" without actual, live mechanical proof (tool outputs, test runs, diff inspections, or audit scans). Never say "This should work" without running the command.
+2. **Pillar 1 (When Building):**
+   - Execute the "Examine 1 Time Completely Over" audit to verify cross-module parameter and schema consistency.
+   - Run an executable smoke test on newly written code before returning.
+   - Enforce 100% KaTeX safety formatting (single-line math only; no multi-line LaTeX blocks).
+3. **Pillar 2 (When Troubleshooting):**
+   - Prove the root cause before editing code.
+   - Follow the 3-step proving sequence: (A) Capture reproduction failure → (B) Apply targeted fix → (C) Re-run exact reproduction command to prove the error is eliminated.
+   - Perform a regression check on adjacent tools to ensure zero collateral failures.
+4. **Pillar 3 (When Exporting & Publishing):**
+   - Run mechanical PII and secret audits (0 forbidden patterns: no `/Users/...` paths, emails, tokens, or PINs).
+   - Strict state quarantine: never export personal memory, journals, credentials, or private automations.
+   - Verify git diff and archive builds (`.zip`) before pushing to remotes.
