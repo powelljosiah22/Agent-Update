@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 """
 Syncs credentials and paths from ~/Agents/Agent 0/.env directly into
-~/.gemini/config/mcp_config.json so Callie (or her agent) only ever has to
-edit ~/Agents/Agent 0/.env in one place.
+~/.gemini/config/mcp_config.json, filtering active MCP servers based on
+~/Agents/.agents_profile (if present). Defaults to all modules if no profile
+exists, preserving 100% backward compatibility.
 """
 import json
 import os
 from pathlib import Path
 
-HOME = Path.home()
-ENV_PATH = HOME / "Agents" / "Agent 0" / ".env"
+HOME = Path(os.environ.get("HOME", str(Path.home())))
+AGENTS_ROOT = HOME / "Agents"
+PROFILE_PATH = AGENTS_ROOT / ".agents_profile"
+ENV_PATH = AGENTS_ROOT / "Agent 0" / ".env"
 MCP_TEMPLATE_PATH = HOME / ".gemini" / "config" / "mcp_config.json.template"
 MCP_CONFIG_PATH = HOME / ".gemini" / "config" / "mcp_config.json"
 
@@ -27,6 +30,17 @@ def parse_env(env_file: Path) -> dict:
         v = v.strip().strip('"').strip("'")
         values[k] = v
     return values
+
+
+def get_active_modules() -> set:
+    if not PROFILE_PATH.exists():
+        return {"academic", "theology", "finance"}
+    try:
+        data = json.loads(PROFILE_PATH.read_text(encoding="utf-8"))
+        mods = data.get("modules", ["academic", "theology", "finance"])
+        return {m.strip().lower() for m in mods if m.strip()}
+    except Exception:
+        return {"academic", "theology", "finance"}
 
 
 def main():
@@ -55,15 +69,27 @@ def main():
     raw = raw.replace("__GMAIL_APP_PASSWORD__", gmail_app_pw)
     raw = raw.replace("YOUR_16_CHAR_GMAIL_APP_PASSWORD", gmail_app_pw)
 
-    # Validate JSON before writing
+    # Validate JSON and filter by active modules
     parsed = json.loads(raw)
+    servers = parsed.get("mcpServers", {})
+    active_modules = get_active_modules()
+
+    if "academic" not in active_modules:
+        servers.pop("obsidian-search", None)
+    if "theology" not in active_modules:
+        servers.pop("biblical-philology", None)
+    if "finance" not in active_modules:
+        servers.pop("yfinance", None)
+        servers.pop("robinhood", None)
+
+    parsed["mcpServers"] = servers
     MCP_CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
     MCP_CONFIG_PATH.write_text(json.dumps(parsed, indent=2) + "\n", encoding="utf-8")
-    print(f"✅ Synced .env settings into {MCP_CONFIG_PATH}")
+    print(f"✅ Synced .env settings into {MCP_CONFIG_PATH} (Active modules: {', '.join(sorted(active_modules))})")
 
     # Also sync USER_EMAIL into credentials/accounts.json
-    accounts_tpl = HOME / "Agents" / "Agent 0" / "credentials" / "accounts.json.template"
-    accounts_out = HOME / "Agents" / "Agent 0" / "credentials" / "accounts.json"
+    accounts_tpl = AGENTS_ROOT / "Agent 0" / "credentials" / "accounts.json.template"
+    accounts_out = AGENTS_ROOT / "Agent 0" / "credentials" / "accounts.json"
     if accounts_tpl.exists():
         acc_raw = accounts_tpl.read_text(encoding="utf-8").replace("__USER_EMAIL__", user_email)
         accounts_out.write_text(acc_raw, encoding="utf-8")

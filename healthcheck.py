@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-Callie's Multi-Agent Infrastructure Healthcheck & Verification Suite.
+Multi-Agent Infrastructure Healthcheck & Verification Suite.
 Verifies:
 1. Global Rules & Custom Skills in ~/.gemini/config/
 2. ~/.gemini/config/mcp_config.json syntax & resolved paths
-3. All 4 Agent Workspaces & 5-File Knowledge Architecture
-4. Both Python Virtual Environments & critical imports
+3. Active Agent Workspaces & 5-File Knowledge Architecture (per .agents_profile)
+4. Python Virtual Environments & critical imports
 5. Node.js Google Drive MCP dependencies
 6. .env Configuration & API key readiness
-7. Second Brain Vault & Class Folders directory structure
-8. Live ChromaDB HTTP Search Daemon on 127.0.0.1:8085
+7. Second Brain Vault, Class Folders, or Biblical Corpus DB (per module)
+8. Live ChromaDB HTTP Search Daemon on 127.0.0.1:8085 (when Academic active)
 """
 import json
 import os
@@ -18,8 +18,9 @@ import sys
 import urllib.request
 from pathlib import Path
 
-HOME = Path.home()
+HOME = Path(os.environ.get("HOME", str(Path.home())))
 AGENTS_ROOT = HOME / "Agents"
+PROFILE_PATH = AGENTS_ROOT / ".agents_profile"
 AGENT0_DIR = AGENTS_ROOT / "Agent 0"
 GEMINI_CONFIG = HOME / ".gemini" / "config"
 
@@ -59,12 +60,25 @@ def parse_env(env_file: Path) -> dict:
     return values
 
 
+def get_active_modules() -> set:
+    if not PROFILE_PATH.exists():
+        return {"academic", "theology", "finance"}
+    try:
+        data = json.loads(PROFILE_PATH.read_text(encoding="utf-8"))
+        mods = data.get("modules", ["academic", "theology", "finance"])
+        return {m.strip().lower() for m in mods if m.strip()}
+    except Exception:
+        return {"academic", "theology", "finance"}
+
+
 def main():
+    active_modules = get_active_modules()
     print("=" * 72)
-    print("🩺 CALLIE MULTI-AGENT INFRASTRUCTURE HEALTHCHECK")
+    print("🩺 MULTI-AGENT INFRASTRUCTURE HEALTHCHECK")
     version_file = AGENT0_DIR / "VERSION.txt"
     if version_file.exists():
         print(f"📌 Installed Release: {version_file.read_text(encoding='utf-8').strip()}")
+    print(f"📦 Active Profile Modules: {', '.join(sorted(active_modules))}")
     print("=" * 72)
 
     # 1. Global Rules & Skills
@@ -78,6 +92,7 @@ def main():
         "knowledge_lifecycle.md",
         "tiered_fallback.md",
         "workspace_hygiene.md",
+        "work_verification_and_audit.md",
     ]
     for r in expected_rules:
         p = GEMINI_CONFIG / "rules" / r
@@ -117,9 +132,16 @@ def main():
         except Exception as e:
             fail(f"Invalid JSON in {mcp_path}: {e}")
 
-    # 3. Workspaces
+    # 3. Workspaces (Scoped to Active Modules)
     print("\n3. Agent Workspaces & 5-File Knowledge Architecture (~/Agents/)")
-    workspaces = ["Agent 0", "Academic Tutor", "Theology Agent", "Financial_Coach"]
+    workspaces = ["Agent 0"]
+    if "academic" in active_modules:
+        workspaces.append("Academic Tutor")
+    if "theology" in active_modules:
+        workspaces.append("Theology Agent")
+    if "finance" in active_modules:
+        workspaces.append("Financial_Coach")
+
     core_files = ["job_description.md", "memory.md", "skills.md", "learnings.md", "context.md"]
     for ws in workspaces:
         ws_dir = AGENTS_ROOT / ws
@@ -128,6 +150,13 @@ def main():
             ok(f"Workspace '{ws}' has all 5 core knowledge files")
         else:
             fail(f"Workspace '{ws}' missing files: {missing}")
+
+    if "theology" in active_modules:
+        phil_db = AGENTS_ROOT / "Theology Agent" / "philology_db" / "biblical_corpus.db"
+        if phil_db.exists():
+            ok("Biblical Philology Corpus DB (biblical_corpus.db) verified")
+        else:
+            fail(f"Missing Biblical Corpus DB at {phil_db}")
 
     # 4. Python Virtual Environments
     print("\n4. Python Virtual Environments & Dependencies")
@@ -147,18 +176,19 @@ def main():
     else:
         fail(f"Missing main Python venv at {venv_main}")
 
-    if venv_search.exists():
-        res = subprocess.run(
-            [str(venv_search), "-c", "import chromadb, onnxruntime, dotenv; print('OK')"],
-            capture_output=True,
-            text=True,
-        )
-        if res.returncode == 0:
-            ok("Obsidian Search venv (mcp/obsidian_search/venv) & ChromaDB verified")
+    if "academic" in active_modules or "theology" in active_modules:
+        if venv_search.exists():
+            res = subprocess.run(
+                [str(venv_search), "-c", "import chromadb, onnxruntime, dotenv; print('OK')"],
+                capture_output=True,
+                text=True,
+            )
+            if res.returncode == 0:
+                ok("Search & Vector venv (mcp/obsidian_search/venv) & ChromaDB verified")
+            else:
+                fail(f"Search venv missing packages: {res.stderr.strip()}")
         else:
-            fail(f"Obsidian Search venv missing packages: {res.stderr.strip()}")
-    else:
-        fail(f"Missing Obsidian Search venv at {venv_search}")
+            fail(f"Missing Search Python venv at {venv_search}")
 
     # 5. Node.js Google Drive MCP
     print("\n5. Google Drive MCP Node Dependencies")
@@ -166,7 +196,7 @@ def main():
     if gdrive_modules.exists():
         ok("Google Drive MCP node_modules/googleapis installed")
     else:
-        warn("Google Drive MCP node_modules not found (run: npm --prefix ~/Agents/Agent\ 0/mcp/google_drive install)")
+        warn("Google Drive MCP node_modules not found (run: npm --prefix ~/Agents/Agent\\ 0/mcp/google_drive install)")
 
     # 6. .env & Credentials Check
     print("\n6. Environment Variables & API Keys (~/Agents/Agent 0/.env)")
@@ -183,25 +213,26 @@ def main():
             else:
                 ok(f"{key} is configured")
 
-        # Check Vault and Class Folders paths
-        for path_key in ["OBSIDIAN_VAULT_PATH", "CLASS_FOLDERS_PATH"]:
-            p_str = env_vars.get(path_key, "")
-            if p_str and Path(p_str).exists():
-                ok(f"{path_key} exists on disk: {p_str}")
-            else:
-                warn(f"{path_key} directory not found yet: {p_str}")
+        if "academic" in active_modules:
+            for path_key in ["OBSIDIAN_VAULT_PATH", "CLASS_FOLDERS_PATH"]:
+                p_str = env_vars.get(path_key, "")
+                if p_str and Path(p_str).exists():
+                    ok(f"{path_key} exists on disk: {p_str}")
+                else:
+                    warn(f"{path_key} directory not found yet: {p_str}")
 
-    # 7. ChromaDB HTTP Daemon (Port 8085)
-    print("\n7. ChromaDB Hybrid Search Daemon (http://127.0.0.1:8085/health)")
-    try:
-        with urllib.request.urlopen("http://127.0.0.1:8085/health", timeout=3) as resp:
-            if resp.status == 200:
-                payload = json.loads(resp.read().decode("utf-8"))
-                ok(f"ChromaDB Search Daemon is ONLINE (port 8085): {payload}")
-            else:
-                warn(f"Search daemon returned HTTP {resp.status}")
-    except Exception as e:
-        warn(f"Search daemon not currently responding on 127.0.0.1:8085 ({e}). Run watchdog_runner.py to start it.")
+    # 7. ChromaDB HTTP Daemon (Port 8085) — Only required when Academic is active
+    if "academic" in active_modules:
+        print("\n7. ChromaDB Hybrid Search Daemon (http://127.0.0.1:8085/health)")
+        try:
+            with urllib.request.urlopen("http://127.0.0.1:8085/health", timeout=3) as resp:
+                if resp.status == 200:
+                    payload = json.loads(resp.read().decode("utf-8"))
+                    ok(f"ChromaDB Search Daemon is ONLINE (port 8085): {payload}")
+                else:
+                    warn(f"Search daemon returned HTTP {resp.status}")
+        except Exception as e:
+            warn(f"Search daemon not currently responding on 127.0.0.1:8085 ({e}). Run watchdog_runner.py to start it.")
 
     print("\n" + "=" * 72)
     print(f"SUMMARY: {PASS_COUNT} PASSED | {WARN_COUNT} WARNINGS | {FAIL_COUNT} FAILED")
