@@ -1,7 +1,57 @@
-# 🤖 AGENT_SETUP_WIZARD.md — Autonomous Onboarding & Verification Protocol
+# 🤖 AGENT_SETUP_WIZARD.md — Autonomous Onboarding & Zero-Terminal Setup Protocol
 
-**Target Audience:** Callie's Antigravity Agent (`Agent 0`).
-When Callie asks you to set up, verify, or personalize her infrastructure, follow this exact protocol.
+**Target Audience:** Any Antigravity Agent running inside this repository (`Agent-Update`).
+When a user (Callie, Wyatt, Oliver, or anyone new) opens this folder in Antigravity and asks you to set up, install, or personalize their agents, follow this **Zero-Terminal Autonomous Setup Protocol**:
+
+---
+
+## ⚡ 0. The One-Prompt Zero-Terminal Execution Sequence
+
+When the user pastes the **Kickoff Prompt** in chat with their details (Name, Module selection, `GEMINI_API_KEY`, Google Drive email):
+
+### Step 1: Execute the Modular Setup Script
+Run the installer via `run_command` in the workspace directory using their requested module flag:
+```bash
+# If they chose Theology:
+./setup.sh --modules theology
+
+# If they chose Academic:
+./setup.sh --modules academic
+
+# If they chose Finance:
+./setup.sh --modules finance
+
+# If they chose All Agents:
+./setup.sh --all
+```
+*(If the user did not specify, ask them which module they want: [1] Academic, [2] Theology, [3] Finance, or [4] All).*
+
+### Step 2: Configure Their `.env` File
+Immediately write their provided credentials into `~/Agents/Agent 0/.env`:
+- Set `GEMINI_API_KEY=<User's Key>`
+- Set `USER_EMAIL=<User's Google Email>`
+- Ensure all other placeholders remain intact.
+
+### Step 3: Sync MCP Config
+Run the environment synchronizer so Antigravity's MCP server config reflects their keys:
+```bash
+python3 ~/Agents/Agent\ 0/sync_env_to_mcp.py
+```
+
+### Step 4: Run System Healthcheck
+Execute the diagnostic script to verify everything is operational:
+```bash
+python3 ~/Agents/Agent\ 0/healthcheck.py
+```
+
+### Step 5: Deliver Completion Instructions
+Reply in chat with a clear, celebratory summary:
+1. Confirm that their selected module is 100% installed and healthy.
+2. Instruct them to perform the final 2-click GUI action:
+   > *"Everything has been installed and configured autonomously! To start using your agents:*
+   > *1. Go to **File → Open Folder...** in the top menu and select `~/Agents/Agent 0`.*
+   > *2. Press **`Cmd + Shift + P`**, type **`Developer: Reload Window`**, and press `Return`.*
+   > *You are now ready to chat with Agent 0 and your specialized subagents!"*
 
 ---
 
