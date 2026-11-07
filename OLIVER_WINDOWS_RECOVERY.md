@@ -62,8 +62,8 @@ Hey! I have an existing agent setup on Windows from about 6 weeks ago that stall
 
 Here is the exact step-by-step checklist to close the loop with Oliver:
 
-### For Josiah (2 Minutes):
-- [ ] **Grant GitHub Access:** Go to `https://github.com/powelljosiah22/Agent-Update/settings/access` and invite Oliver's GitHub username (`oliver07` / `olivergonzalez`).
+### For Josiah (1 Minute):
+- [x] **Repository is Public:** The distribution repo is public, so Oliver can clone immediately without any GitHub invitation or login prompts!
 - [ ] **Send Him the Prompt:** Copy the prompt from Section 3 above and text/email it to Oliver.
 
 ### For Oliver (3 Minutes):
