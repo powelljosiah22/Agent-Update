@@ -67,14 +67,20 @@ if ([string]::IsNullOrWhiteSpace($modules)) {
     }
 }
 
+# 4. Save & Merge Active Profile
+$PROFILE_FILE = Join-Path $TARGET_HOME ".agents_profile"
+if (Test-Path $PROFILE_FILE) {
+    $existing = (Get-Content -Path $PROFILE_FILE -Raw).Trim()
+    if ($existing -and -not $all) {
+        $combined = ($existing -split "," + $modules -split ",") | Where-Object { $_ } | Select-Object -Unique
+        $modules = ($combined -join ",")
+    }
+}
 $INSTALL_ACADEMIC = ($modules -match "academic")
 $INSTALL_THEOLOGY = ($modules -match "theology")
 $INSTALL_FINANCE  = ($modules -match "finance")
 
 Write-Host "📦 Active Profile Modules: $modules" -ForegroundColor Cyan
-
-# 4. Save Active Profile
-$PROFILE_FILE = Join-Path $TARGET_HOME ".agents_profile"
 Set-Content -Path $PROFILE_FILE -Value $modules -Force
 Write-Host "✅ Recorded active profile in $PROFILE_FILE" -ForegroundColor Green
 

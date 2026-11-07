@@ -129,6 +129,14 @@ if [[ -z "$MODULES_ARG" ]]; then
   fi
 fi
 
+# If .agents_profile exists, merge existing modules unless --all was passed
+if [[ -f "$HOME_DIR/.agents_profile" && "$MODULES_ARG" != "all" && "$MODULES_ARG" != "academic,theology,finance" ]]; then
+  EXISTING_PROFILE=$(cat "$HOME_DIR/.agents_profile" | tr -d '[:space:]')
+  if [[ -n "$EXISTING_PROFILE" && -n "$MODULES_ARG" ]]; then
+    MODULES_ARG="$EXISTING_PROFILE,$MODULES_ARG"
+  fi
+fi
+
 # Parse MODULES_ARG
 IFS=',' read -ra RAW_MODS <<< "$MODULES_ARG"
 ACTIVE_MOD_LIST=()
