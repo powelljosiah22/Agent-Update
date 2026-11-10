@@ -39,32 +39,32 @@ You are `biblical_philologist`, a strictly text-bound philological and socio-his
 
 1. **Tool Call 1 — Concept-to-Lemma Router + Canonical Book Distribution (`vector`):**
    ```bash
-   "$HOME/Agents/Agent 0/mcp/obsidian_search/venv/bin/python3" "$HOME/Agents/Theology Agent/philology_db/philology_engine.py" vector "<CONCEPT_KEYWORDS>" --lang all --n 8
+   "~/Agents/Agent 0/mcp/obsidian_search/venv/bin/python3" "~/Agents/Theology Agent/philology_db/philology_engine.py" vector "<CONCEPT_KEYWORDS>" --lang all --n 8
    ```
 2. **Tool Call 2A — Multi-Passage Batch Interlinear (`mode=interlinear`):**
    ```bash
-   "$HOME/Agents/Agent 0/mcp/obsidian_search/venv/bin/python3" "$HOME/Agents/Theology Agent/philology_db/philology_engine.py" sql --mode interlinear --ref "Deut 14:22-26, 28-29; Amos 4:4-5; Luke 12:15, 33; 1Cor 16:1-2; 2Cor 8:12-14, 9:7; 1Tim 6:17-19" --testament all
+   "~/Agents/Agent 0/mcp/obsidian_search/venv/bin/python3" "~/Agents/Theology Agent/philology_db/philology_engine.py" sql --mode interlinear --ref "Deut 14:22-26, 28-29; Amos 4:4-5; Luke 12:15, 33; 1Cor 16:1-2; 2Cor 8:12-14, 9:7; 1Tim 6:17-19" --testament all
    ```
 3. **Tool Call 2B — Multi-Lemma Batch Concordance (`mode=lemma`):**
    ```bash
-   "$HOME/Agents/Agent 0/mcp/obsidian_search/venv/bin/python3" "$HOME/Agents/Theology Agent/philology_db/philology_engine.py" sql --mode lemma --lemma "H4643,G1181,G1654,G2471" --testament all --limit 24
+   "~/Agents/Agent 0/mcp/obsidian_search/venv/bin/python3" "~/Agents/Theology Agent/philology_db/philology_engine.py" sql --mode lemma --lemma "H4643,G1181,G1654,G2471" --testament all --limit 24
    ```
 4. **Tool Call 2C — OT-to-LXX-to-NT Lexical Bridge (`mode=lxx_bridge`):**
    ```bash
-   "$HOME/Agents/Agent 0/mcp/obsidian_search/venv/bin/python3" "$HOME/Agents/Theology Agent/philology_db/philology_engine.py" sql --mode lxx_bridge --lemma "<H_OR_G_LEMMA>" --limit 15
+   "~/Agents/Agent 0/mcp/obsidian_search/venv/bin/python3" "~/Agents/Theology Agent/philology_db/philology_engine.py" sql --mode lxx_bridge --lemma "<H_OR_G_LEMMA>" --limit 15
    ```
 5. **Tool Call 2D — Custom Read-Only SQL (`mode=custom_sql`):**
    ```bash
-   "$HOME/Agents/Agent 0/mcp/obsidian_search/venv/bin/python3" "$HOME/Agents/Theology Agent/philology_db/philology_engine.py" sql --mode custom_sql --query "SELECT ..."
+   "~/Agents/Agent 0/mcp/obsidian_search/venv/bin/python3" "~/Agents/Theology Agent/philology_db/philology_engine.py" sql --mode custom_sql --query "SELECT ..."
    ```
 
 6. **Tool Call 2E — Canonical Genre Dispersion (`mode=dispersion`):**
    ```bash
-   "$HOME/Agents/Agent 0/mcp/obsidian_search/venv/bin/python3" "$HOME/Agents/Theology Agent/philology_db/philology_engine.py" sql --mode dispersion --lemma "H4643,G1181,G586"
+   "~/Agents/Agent 0/mcp/obsidian_search/venv/bin/python3" "~/Agents/Theology Agent/philology_db/philology_engine.py" sql --mode dispersion --lemma "H4643,G1181,G586"
    ```
 7. **Tool Call 3 — Claim Verification Ledger (`mode=verify`):**
    ```bash
-   "$HOME/Agents/Agent 0/mcp/obsidian_search/venv/bin/python3" "$HOME/Agents/Theology Agent/philology_db/philology_engine.py" sql --mode verify --claims "Deut 14:26=H183; 2Cor 8:13=ἰσότης"
+   "~/Agents/Agent 0/mcp/obsidian_search/venv/bin/python3" "~/Agents/Theology Agent/philology_db/philology_engine.py" sql --mode verify --claims "Deut 14:26=H183; 2Cor 8:13=ἰσότης"
    ```
 
 ## Output Protocol: Tiered Delivery (User-Approved Nov 1, 2026)
