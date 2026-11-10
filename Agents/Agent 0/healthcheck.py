@@ -190,13 +190,14 @@ def main():
         else:
             fail(f"Missing Search Python venv at {venv_search}")
 
-    # 5. Node.js Google Drive MCP
-    print("\n5. Google Drive MCP Node Dependencies")
-    gdrive_modules = AGENT0_DIR / "mcp" / "google_drive" / "node_modules" / "googleapis"
-    if gdrive_modules.exists():
-        ok("Google Drive MCP node_modules/googleapis installed")
+    # 5. Native Google Workspace Plugins (~/.gemini/config/plugins/)
+    print("\n5. Google Workspace Plugins (~/.gemini/config/plugins/)")
+    plugins_dir = GEMINI_CONFIG / "plugins"
+    ws_plugins = [p for p in ["gmail", "gcalendar", "gdrive", "gdocs", "gsheets", "gslides"] if (plugins_dir / p).exists()]
+    if ws_plugins:
+        ok(f"Google Workspace plugins installed: {', '.join(ws_plugins)}")
     else:
-        warn("Google Drive MCP node_modules not found (run: npm --prefix ~/Agents/Agent\\ 0/mcp/google_drive install)")
+        warn("No Google Workspace plugins detected yet (add Gmail, Calendar, Drive, Docs, Sheets, Slides in the Antigravity Plugins Manager)")
 
     # 6. .env & Credentials Check
     print("\n6. Environment Variables & API Keys (~/Agents/Agent 0/.env)")

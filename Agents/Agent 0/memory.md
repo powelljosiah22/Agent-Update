@@ -2,15 +2,15 @@
 
 ## 🎯 Active Sprint Queue
 - [ ] Complete initial onboarding & personalization with Callie (see `AGENT_SETUP_WIZARD.md`).
-- [ ] Verify Google Workspace / Calendar / Gmail OAuth tokens (`~/Agents/Agent 0/credentials/`).
+- [ ] Connect native Google Workspace plugins (`gmail`, `gcalendar`, `gdrive`, `gdocs`, `gsheets`, `gslides`) in Antigravity Plugins Manager.
 - [ ] Index initial Obsidian Second Brain notes and current semester Class Folders into ChromaDB.
 
 ---
 
 ## 🧭 Specialist Agent Dispatch Table
-| Domain | Workspace Path | Subagent Name | Primary MCPs |
+| Domain | Workspace Path | Subagent Name | Primary Tools & MCPs |
 | :--- | :--- | :--- | :--- |
-| **Executive / Master Node** | `~/Agents/Agent 0` | `self` | `google-workspace`, `email-sender-mcp`, `google-drive`, `obsidian-search` |
+| **Executive / Master Node** | `~/Agents/Agent 0` | `self` | `gmail`, `gcalendar`, `gdrive`, `gdocs`, `gsheets`, `gslides`, `email-sender-mcp`, `obsidian-search` |
 | **Academics & Coursework** | `~/Agents/Academic Tutor` | `academic_tutor` | `obsidian-search` (`target="classes"`), `perplexity-ask` |
 | **Theology & Philosophy** | `~/Agents/Theology Agent` | `theology_philosophical_agent` | `obsidian-search` (`target="vault"`), `perplexity-ask` |
 | **Wealth & Quant Finance** | `~/Agents/Financial_Coach` | `financial_coach` | `yfinance`, `robinhood`, `perplexity-ask` |

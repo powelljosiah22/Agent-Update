@@ -12,4 +12,4 @@ if [ -z "$CANVAS_ICS_CALENDAR_ID" ] || [ -z "$ACADEMIC_CALENDAR_ID" ]; then
   exit 1
 fi
 
-agy --print "Weekly Canvas Sync: Use calendar_get_events to fetch the next 14 days of events from the Canvas calendar ($CANVAS_ICS_CALENDAR_ID). Then fetch the next 14 days of events from the Academic calendar ($ACADEMIC_CALENDAR_ID). For any Canvas event that doesn't already exist in the Academic calendar, use calendar_create_event to copy it over. IMPORTANT: For Canvas all-day events (where end date is exclusive), convert the actual due date (start date) to 23:59:00 in America/New_York RFC3339 format." --dangerously-skip-permissions
+agy --print "Weekly Canvas Sync: Use the gcalendar skill/CLI to fetch the next 14 days of events from the Canvas calendar ($CANVAS_ICS_CALENDAR_ID). Then fetch the next 14 days of events from the Academic calendar ($ACADEMIC_CALENDAR_ID). For any Canvas event that doesn't already exist in the Academic calendar, create the event on the Academic calendar. IMPORTANT: For Canvas all-day events (where end date is exclusive), convert the actual due date (start date) to 23:59:00 in America/New_York RFC3339 format." --dangerously-skip-permissions

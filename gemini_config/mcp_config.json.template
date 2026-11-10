@@ -17,25 +17,6 @@
         "__HOME_DIR__/Agents/Agent 0/email_mcp_server.py"
       ]
     },
-    "google-drive": {
-      "command": "node",
-      "args": [
-        "__HOME_DIR__/Agents/Agent 0/mcp/google_drive/mcp_drive.js"
-      ]
-    },
-    "google-workspace": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@iflow-mcp/mcp-google-workspace",
-        "--gauth-file",
-        "__HOME_DIR__/Agents/Agent 0/credentials/gauth.json",
-        "--accounts-file",
-        "__HOME_DIR__/Agents/Agent 0/credentials/accounts.json",
-        "--credentials-dir",
-        "__HOME_DIR__/Agents/Agent 0/credentials/"
-      ]
-    },
     "yfinance": {
       "command": "__HOME_DIR__/Agents/Agent 0/.venv/bin/python",
       "args": [

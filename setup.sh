@@ -87,7 +87,7 @@ fi
 echo "✅ Found Python 3.10+: $("$PYTHON_BIN" --version) ($PYTHON_BIN)"
 
 if ! command -v node >/dev/null 2>&1; then
-  echo "⚠️  Warning: Node.js (node) is not installed. Google Drive & Google Workspace MCPs require Node.js."
+  echo "⚠️  Warning: Node.js (node) is not installed. Optional Perplexity MCP requires Node.js."
   echo "   Install via: brew install node"
 else
   echo "✅ Found Node.js: $(node --version) ($(command -v node))"
@@ -372,14 +372,7 @@ if [[ "$SKIP_VENVS" -eq 0 ]]; then
     echo "✅ Installed Vector & Search venv dependencies"
   fi
 
-  # 10. Install Node.js Dependencies for Google Drive MCP
-  if command -v npm >/dev/null 2>&1; then
-    echo "⏳ Installing Node.js dependencies for Google Drive MCP..."
-    npm --prefix "$HOME_DIR/Agents/Agent 0/mcp/google_drive" install --silent
-    echo "✅ Installed Google Drive MCP Node packages"
-  fi
-
-  # 11. Initialize ChromaDB & Start Background Daemons (Only when Academic is enabled)
+  # 10. Initialize ChromaDB & Start Background Daemons (Only when Academic is enabled)
   if [[ "$ENABLE_ACADEMIC" -eq 1 ]]; then
     echo "⏳ Initializing ChromaDB collections and pre-warming local vector embeddings..."
     "$HOME_DIR/Agents/Agent 0/mcp/obsidian_search/venv/bin/python" "$HOME_DIR/Agents/Agent 0/mcp/obsidian_search/sync_database.py" || true

@@ -85,12 +85,9 @@ python3 ~/Agents/Agent\ 0/sync_env_to_mcp.py
 
 ---
 
-### Step 4: Optional OAuth Integrations (Google Drive / Robinhood)
-- **Google Drive & Calendar OAuth (`google-drive` MCP & Morning Briefing Calendar):**
-  Follow `~/Agents/Agent 0/credentials/README_OAUTH.md` to drop your `credentials.json` into `~/Agents/Agent 0/credentials/` and run:
-  ```bash
-  ~/Agents/Agent\ 0/.venv/bin/python ~/Agents/Agent\ 0/credentials/generate_token.py
-  ```
+### Step 4: Native Google Workspace Plugins & Optional Integrations
+- **Google Workspace Plugins (`gmail`, `gcalendar`, `gdrive`, `gdocs`, `gsheets`, `gslides`):**
+  Antigravity now includes official first-party Google Workspace plugins. Simply open the **Plugins** panel in Antigravity, add the Google Workspace plugins (`Gmail`, `Google Calendar`, `Google Drive`, `Google Docs`, `Google Sheets`, `Google Slides`), and click **Sign in** with your Google account—no manual `credentials.json` or OAuth token scripts needed!
 - **Robinhood Portfolio Integration (Optional — for Financial Coach):**
   If you want live Robinhood positions, add `ROBINHOOD_USERNAME` and `ROBINHOOD_PASSWORD` to `~/Agents/Agent 0/.env` and run:
   ```bash
