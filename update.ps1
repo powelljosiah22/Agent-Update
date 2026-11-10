@@ -83,6 +83,12 @@ if ($INSTALL_ACADEMIC) {
 if ($INSTALL_THEOLOGY) {
     Write-Host "   Updating Theology Agent..." -ForegroundColor Green
     Update-WorkspacePreservingState -src "$SCRIPT_ROOT\Agents\Theology Agent" -dst "$AGENTS_DIR\Theology Agent"
+    $DB_ARCHIVE = "$AGENTS_DIR\Theology Agent\philology_db\biblical_corpus.db.tar.gz"
+    $DB_FILE = "$AGENTS_DIR\Theology Agent\philology_db\biblical_corpus.db"
+    if ((Test-Path $DB_ARCHIVE) -and (-not (Test-Path $DB_FILE))) {
+        Write-Host "   Unpacking biblical_corpus.db (1.068M-word Greek/Hebrew/LXX database)..." -ForegroundColor Cyan
+        tar -xzf $DB_ARCHIVE -C "$AGENTS_DIR\Theology Agent\philology_db"
+    }
 }
 
 if ($INSTALL_FINANCE) {
