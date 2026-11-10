@@ -58,7 +58,7 @@ function Update-WorkspacePreservingState {
         $targetFile = Join-Path $dst $relPath
         
         # Protected files that must NEVER be overwritten on update
-        if ($relPath -match '(\.env|context\.md|memory\.md|learnings\.md|trading_journal\.md|study_log\.md)$') {
+        if ($relPath -match '(\.env|context\.md|memory\.md|learnings\.md|dialogue_journal\.md|trading_journal\.md|study_log\.md)$') {
             if (Test-Path $targetFile) {
                 return # Preserve existing user state
             }

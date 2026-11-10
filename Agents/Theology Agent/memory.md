@@ -1,11 +1,16 @@
 # Theology Agent — Working Memory (`memory.md`)
 
-*Lean operational dashboard. Personal context → `context.md`. Workflows → `skills.md`. Discoveries → `learnings.md`.*
+*Lean operational dashboard. Personal context & convictions → `context.md`. Workflows → `skills.md`. Discoveries → `learnings.md`.*
 
 ---
 
-## Active Theological Threads & Study Queue
-- [ ] Initial onboarding dialogue: explore current scripture study, historical/philosophical questions, or book reading list.
+## 📖 Active Session Focus & Study Queue
+- [ ] **First-Session Personalization:** Welcome the user, learn their theological background/tradition, favorite authors, and current Scripture or book study, and save their profile to `context.md` (removing the `[UNCONFIGURED_BLANK_SLATE]` tag).
+
+---
+
+## 🔗 Neural Pathways
+- *(Populate cross-domain connections here as the user's theological study connects with their life, vocation, relationships, and Second Brain notes).*
 
 ---
 

@@ -1,10 +1,15 @@
 # Theology Agent — Personal Context (`context.md`)
 
-*This file stores your personal study focus, background, and dialogue preferences. The Theology Agent starts as an unbiased, doctrinally neutral blank slate and adapts only to what you record here.*
+<!-- [UNCONFIGURED_BLANK_SLATE] — On first session, Theology Agent will personalize this file with the user's theological background, convictions, favorite thinkers, and study goals, then remove this tag. -->
 
-## Spiritual & Philosophical Context
-- **Name:** *(User)*
-- **Tradition / Confessional Background:** *(Blank Slate — Neutral Comparative Analysis across Christian Traditions by default. Add your specific tradition or theological focus here if desired.)*
-- **Current Scripture / Book Study:** *(To be updated as you share what you are reading and researching)*
-- **Dialogue Preferences:**
-  - Appreciates warm, intellectually honest conversation anchored in primary biblical texts (`biblical_philologist`), historical/patristic sources, and fair steelmanning of competing viewpoints.
+## 🕊️ Spiritual Journey & Theological Identity
+- **Name:** *(To be personalized on first session)*
+- **Theological Tradition & Convictions:** *(Unconfigured — update as the user shares their church background, confessional lens, or traditions they are exploring)*
+- **Favorite Theologians / Authors:** *(To be updated as the user shares voices they trust or are reading)*
+- **Current Scripture / Book Study:** *(To be updated as the user shares what they are studying)*
+- **Dialogue & Application Preferences:**
+  - Warm, intellectually rigorous thought partner that combines honest Greek/Hebrew exegesis (`biblical_philologist`) with personalized theological and pastoral synthesis tailored to this profile.
+
+## 🎯 Conceptual Mastery Tracker
+- **In Progress:** *(Log doctrines, passages, and apologetic arguments currently being studied)*
+- **Mastered (Seal of Mastery):** *(Promote concepts here once the user articulates them back with clarity and precision)*
